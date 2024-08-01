@@ -1,0 +1,33 @@
+create react project using vite
+
+--> npm create vite@latest
+
+select React from the select a framework  and javascript from select variant
+------------------------------------------------------------------------------------------------
+C:\Users\PC\OneDrive\Desktop\New folder\Taskambit>npm create vite@latest
+√ Project name: ... taskambitUI
+√ Package name: ... taskambitui
+√ Select a framework: » React
+√ Select a variant: » JavaScript
+
+Scaffolding project in C:\Users\PC\OneDrive\Desktop\New folder\Taskambit\taskambitUI...
+
+Done. Now run:
+
+  cd taskambitUI
+  npm install
+  npm run dev
+
+-----------------------------------------------------------------------------------------------------
+
+C:\Users\PC\OneDrive\Desktop\New folder\Taskambit\taskambitUI>npm run dev
+
+> taskambitui@0.0.0 dev
+> vite
+
+
+  VITE v5.3.5  ready in 744 ms
+
+  ➜  Local:   http://localhost:5173/    [copy this link and paste it in the browser or place the cursor on the link and press ctrl + click]
+
+
