@@ -1,8 +1,8 @@
-/* This code snippet is defining a Sequelize model for a "Student" entity in a database using
+/* This code snippet is defining a Sequelize model for a "User" entity in a database using
 JavaScript.*/
 module.exports = (sequelize, DataTypes) => {
-    const Student = sequelize.define("Student", {
-        student_id: {
+    const User = sequelize.define("User", {
+        user_id: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         phoneNumber: {
             type: DataTypes.STRING,
-            allowNull: true
+            unique: true,
+            allowNull: false,
         },
         password: {
             type: DataTypes.STRING,
@@ -30,22 +31,17 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         role: {
-            type: DataTypes.ENUM('STUDENT', 'SUPER ADMIN', 'PLACEMENT OFFICER'),
+            type: DataTypes.ENUM('USER', 'SUPER ADMIN'),
             allowNull: false
-        },
-        college_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true
         },
         isActive: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true
         }
-        // ALTER TABLE laratest.students ADD COLUMN isActive BOOLEAN NOT NULL DEFAULT TRUE;
     }, {
-        timestamps: false // Disable createdAt and updatedAt
+        timestamps: true
     });
 
-    return Student;
+    return User;
 };

@@ -29,7 +29,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Import models
-db.Student = require('./studentModel')(sequelize, DataTypes);
-
+db.User = require('./userModel.js')(sequelize, DataTypes);
 
 module.exports = db;

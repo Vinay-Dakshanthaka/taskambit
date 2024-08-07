@@ -1,18 +1,22 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./models');
 const bodyParser = require('body-parser');
-
-
+const authRouter = require('./routes/authRoutes');
+const userRouter = require('./routes/userRoutes')
+const db = require('./models')
 // Create an Express application
 const app = express();
-const PORT = 3002;
+
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
+//routes 
+app.use('/api/auth',authRouter);
+app.use('/api/user',userRouter);
 
+const PORT = 3002;
 // Start the server
 db.sequelize.sync({ force: false })
     .then(() => {
