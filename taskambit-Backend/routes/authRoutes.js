@@ -14,4 +14,12 @@ authRoute.post('/reset-password-email',verifyToken, authController.resetPassword
 
 authRoute.post('/reset-password', authController.resetPassword);
 
+authRoute.get('/google', authController.signinByGoogle);
+
+authRoute.get('/google/callback', authController.googleCallback);
+
+authRoute.get('/logout', authController.logout);
+
+authRoute.get('/profile', authController.getProfile);
+
 module.exports = authRoute;

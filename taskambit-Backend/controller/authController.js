@@ -6,11 +6,57 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 const nodemailer = require('nodemailer');
+const passport = require('passport')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const session = require('express-session');
+const googleConfig  = require('../config/client_secret_25562083860-n3d7n949u2d9me1gn2skkptik4ktfa96.apps.googleusercontent.com.json')
 const { baseURL } = require('../config/baseUrlConfig');
 const jwtSecret = process.env.JWT_SECRET;
 const User = db.User;
 const saltRounds = 10;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+require('./passportSetup')
+
+// const signinByGoogle = passport.authenticate('google', {scope: ['profile','email']});
+const signinByGoogle = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+const googleCallback = async (req, res) =>{
+    passport.authenticate('google', {failureRedirect : '/'},(err,user,info) => {
+        if(err){
+            return res.status(500).send({message : "Internal server error"})
+        }if(!user){
+            return res.status(401).send({message : "Failed to Authenticate"})
+        }
+
+        req.login(user, (err)=>{
+            if(err){
+                return res.status(500).send('/profile')
+            }
+            return res.status(200).send({message : "Login success "})
+        });
+    })(req,res);
+}
+
+const logout = (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return res.status(500).send({ message: 'Logout failed' });
+        }
+        res.redirect('/');
+    });
+};
+
+const getProfile = (req, res) => {
+    if (!req.isAuthenticated()) {
+        console.log('not authnticated ')
+        return res.redirect('api/auth/google');
+    }
+    console.log(req.user)
+    res.send(`Hello ${req.user.displayName}`);
+};
+
+
 
 const signup = async (req, res) => {
     try {
@@ -300,7 +346,13 @@ const resetPassword = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
+    signinByGoogle,
+    googleCallback,
+    logout,
+    getProfile,
     signup,
     signinByEmail,
     updatePassword,
