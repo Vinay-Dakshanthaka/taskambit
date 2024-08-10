@@ -4,7 +4,8 @@ import WorkWithUs from './WorkWithUs'
 import Header from './Header'
 import Introduction from './Introduction'
 import Information from './Information'
-import Signin from './Signin'
+import Signin from './SignIn'
+import SignUp from './SignUp'
 
 const Home = () => {
   return (
@@ -12,6 +13,8 @@ const Home = () => {
         {/* <Header /> */}
         {/* <HeroSection /> */}
         <Signin/>
+
+        <SignUp/>
         {/* <WorkWithUs /> */}
         {/* <Introduction/> */}
         {/* <Information/> */}

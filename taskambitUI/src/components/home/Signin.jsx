@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function Example() {
     return (
@@ -74,10 +75,10 @@ export default function Example() {
             </form>
   
             <p className="mt-10 text-center text-sm text-gray-500">
-              Not a member?{' '}
-              <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                Start a 14 day free trial
-              </a>
+            If you don’t have an account?{' '}
+              <Link to="/signup" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                Sign Up
+              </Link>
             </p>
           </div>
         </div>
