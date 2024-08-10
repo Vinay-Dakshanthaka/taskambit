@@ -12,7 +12,7 @@ const Home = () => {
         {/* <Header /> */}
         {/* <HeroSection /> */}
         <h1 className="text-9xl text-center">Home</h1>
-        <WorkWithUs />
+        <WorkWithUs />  
         {/* <Introduction/> */}
         {/* <Information/> */}
 
