@@ -2,13 +2,19 @@ import React from 'react'
 import HeroSection from './HeroSection'
 import WorkWithUs from './WorkWithUs'
 import Header from './Header'
+import Introduction from './Introduction'
+import Information from './Information'
+import Signin from './Signin'
 
 const Home = () => {
   return (
     <>
-        <Header />
+        {/* <Header /> */}
         {/* <HeroSection /> */}
-        <WorkWithUs />
+        <Signin/>
+        {/* <WorkWithUs /> */}
+        {/* <Introduction/> */}
+        {/* <Information/> */}
     </>
   )
 }
