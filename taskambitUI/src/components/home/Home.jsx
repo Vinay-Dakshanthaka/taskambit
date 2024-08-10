@@ -1,7 +1,7 @@
 import React from 'react'
 import HeroSection from './HeroSection'
 import WorkWithUs from './WorkWithUs'
-import Header from './Header'
+import Header from './Navbar'
 import Introduction from './Introduction'
 import Information from './Information'
 import Signin from './SignIn'
@@ -12,12 +12,11 @@ const Home = () => {
     <>
         {/* <Header /> */}
         {/* <HeroSection /> */}
-        <Signin/>
-
-        <SignUp/>
-        {/* <WorkWithUs /> */}
+        <h1 className="text-9xl text-center">Home</h1>
+        <WorkWithUs />
         {/* <Introduction/> */}
         {/* <Information/> */}
+
     </>
   )
 }
