@@ -1,7 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import axios from 'axios';
-import { baseURL } from '../baseUrlConfig';
+import { baseURL } from '../../baseUrlConfig';
 import Cookies from 'js-cookie'; // Import js-cookie for easier cookie handling
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';

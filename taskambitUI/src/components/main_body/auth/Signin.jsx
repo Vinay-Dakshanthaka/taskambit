@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { baseURL } from "../baseUrlConfig"
+import { baseURL } from "../../baseUrlConfig"
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,19 +25,23 @@ export default function Signin() {
         setTimeout(() => {
           window.location.href = 'user-dashboard'
         }, 2000);
-      }else{
+      } else {
         alert('Not one of the valid user')
       }
       console.log(response.data.role)
     } catch (error) {
-      toast.error('Sorry, Something went wrong')
-      console.error('Error while sign-in', error);
+      if (error.response && error.response.status === 404) {
+        toast.error('No User Found')
+      } else {
+        toast.error('Sorry, Something went wrong')
+        console.error('Error while sign-in', error);
+      }
     }
   }
 
   return (
     <>
-    <Toaster />
+      <Toaster />
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img

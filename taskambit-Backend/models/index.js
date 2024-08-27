@@ -1,6 +1,7 @@
 const dbConfig = require('../config/dbConfig.js');
 const { Sequelize, DataTypes } = require('sequelize');
 
+// Initialize Sequelize
 const sequelize = new Sequelize(
     dbConfig.DB,
     dbConfig.USER,
@@ -16,14 +17,16 @@ const sequelize = new Sequelize(
     }
 });
 
-sequelize.query("CREATE DATABASE IF NOT EXISTS testDB", (err, results)=>{
-    if(err){
-        console.log(err)
-    }else{
-        console.log("Database created successfully ", results)
+// Create database if it doesn't exist
+sequelize.query("CREATE DATABASE IF NOT EXISTS testDB", (err, results) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Database created successfully ", results);
     }
-})
+});
 
+// Authenticate Sequelize
 sequelize.authenticate()
     .then(() => {
         console.log('Connected to the database.');
@@ -32,6 +35,7 @@ sequelize.authenticate()
         console.error('Error connecting to the database:', err);
     });
 
+// Initialize db object
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
@@ -39,6 +43,7 @@ db.sequelize = sequelize;
 // Import models
 db.User = require('./userModel.js')(sequelize, DataTypes);
 
+// Export db object
 module.exports = db;
 
 // const dbConfig = require('../config/dbConfig.js');

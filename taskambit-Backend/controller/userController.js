@@ -1,9 +1,9 @@
-const express = require('express')
-const jwt = require('jsonwebtoken')
+// const express = require('express')
+// const jwt = require('jsonwebtoken')
 const db = require('../models')
 const fs = require('fs')
-const {baseURL } = require('../config/baseUrlConfig')
-const { where } = require('sequelize')
+// const {baseURL } = require('../config/baseUrlConfig')
+// const { where } = require('sequelize')
 
 const User = db.User;
 
@@ -63,7 +63,58 @@ const getProfileImage = async (req, res) =>{
     }
 }
 
+const getUserById = async (req, res) => {
+    try {
+        const { user_id } = req.user_id;
+
+        const user = await User.findOne({ where: { user_id } });
+
+        if (!user) {
+            return res.status(400).send("No User Found");
+        }
+
+        // Extracting required user details
+        const { name, email, phoneNumber } = user;
+
+        return res.status(200).send({ name, email, phoneNumber });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({ message: "Error while fetching user details" });
+    }
+}
+
+const updateUserDetailsById = async (req, res) => {
+    try {
+        const { user_id } = req.user_id; // Assuming user_id is extracted from req.user_id
+        const { name, phoneNumber } = req.body; // Assuming new name and phoneNumber are sent in the request body
+
+        // Fetch the user by user_id
+        const user = await User.findOne({ where: { user_id } });
+
+        if (!user) {
+            return res.status(400).send("No User Found");
+        }
+
+        // Update the user's details
+        user.name = name || user.name; // Only update if new value is provided
+        user.phoneNumber = phoneNumber || user.phoneNumber;
+
+        // Save the updated user
+        await user.save();
+
+        return res.status(200).send({ message: "User details updated successfully", user: { name: user.name, phoneNumber: user.phoneNumber } });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({ message: "Error while updating user details" });
+    }
+}
+
+
 module.exports = {
     saveProfileImage,
     getProfileImage,
+    getUserById,
+    updateUserDetailsById,
 }

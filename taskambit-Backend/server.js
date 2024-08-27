@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-const passport = require('passport')
+// const passport = require('passport')
 const session = require('express-session')
 
 const bodyParser = require('body-parser');
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
+const adminRouter = require('./routes/adminRoutes')
 const db = require('./models');
 
 require('./controller/passportSetup')
@@ -17,9 +18,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-// Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
+// // Initialize Passport
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // app.use(cors());
 app.use(cors({
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/admin',adminRouter);
 
 const PORT = 3002;
 

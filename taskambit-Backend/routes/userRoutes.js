@@ -11,4 +11,8 @@ userRoutes.post('/update-profile-image',imageStorage.single('file'), verifyToken
 
 userRoutes.get('/get-profile-image', verifyToken, userControler.getProfileImage);
 
+userRoutes.get('/get-user-by-id', verifyToken, userControler.getUserById);
+
+userRoutes.get('/update-user-by-id', verifyToken, userControler.updateUserDetailsById);
+
 module.exports = userRoutes;

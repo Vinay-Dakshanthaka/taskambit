@@ -1,12 +1,13 @@
 import './App.css';
-import Home from './components/home/Home';
-import Signin from './components/home/Signin';
+import Home from './components/main_body/home/Home';
+import Signin from './components/main_body/auth/Signin';
 import UserDashboard from './components/user/UserDashboard';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie'; // Import js-cookie for easier cookie handling
-import Navbar from './components/home/Navbar';
-import Signup from './components/home/Signup';
+import Navbar from './components/main_body/home/Navbar';
+import Signup from './components/main_body/auth/Signup';
+import Footer from './components/footer/Footer';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -41,6 +42,7 @@ function App() {
           element={isAuthenticated ? <UserDashboard /> : <Navigate to="/signin" />}
         />
       </Routes>
+      <Footer />
     </>
   );
 }

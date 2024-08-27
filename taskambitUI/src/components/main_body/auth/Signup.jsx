@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { baseURL } from "../baseUrlConfig";
+import { baseURL } from "../../baseUrlConfig";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -10,28 +10,81 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Error states
+  const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
   const navigate = useNavigate();
 
   const handleSignUp = async (event) => {
     event.preventDefault();
+
+    // Reset errors
+    setNameError("");
+    setPhoneError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
+    // Validation checks
+    let isValid = true;
+
+    // Full name validation (at least 3 characters, only letters)
+    if (!fullName || !/^[a-zA-Z\s]{3,}$/.test(fullName)) {
+      setNameError("Full name must be at least 3 characters long and contain only letters.");
+      isValid = false;
+    }
+
+    // Phone number validation (10 digits)
+    if (!phoneNumber || !/^\d{10}$/.test(phoneNumber)) {
+      setPhoneError("Phone number must be exactly 10 digits.");
+      isValid = false;
+    }
+
+    // Email validation
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      isValid = false;
+    }
+
+    // Password validation (at least 8 characters)
+    if (!password || password.length < 8) {
+      setPasswordError("Password must be at least 8 characters long.");
+      isValid = false;
+    }
+
+    // Confirm password validation
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      setConfirmPasswordError("Passwords do not match.");
+      isValid = false;
+    }
+
+    if (!isValid) {
       return;
     }
+
     try {
       const response = await axios.post(`${baseURL}/api/auth/sign-up`, {
-        name:fullName,
+        name: fullName,
         phoneNumber,
         email,
-        password
+        password,
       });
-      console.log('Sign up success');
-      toast.success('Sign-up Success');
-      // Redirect or handle successful signup
-      navigate('/signin');
+
+      console.log("Sign up success");
+      toast.success("Sign-up Success");
+      navigate("/signin");
     } catch (error) {
-      toast.error('Sorry, Something went wrong');
-      console.error('Error while sign-up', error);
+      if (error.response && error.response.status === 400) {
+        toast.error('Account exist with the entered email/phone number')
+      } else {
+        toast.error("Sorry, Something went wrong");
+        console.error("Error while sign-up", error);
+      }
     }
   };
 
@@ -63,9 +116,11 @@ export default function Signup() {
                   type="text"
                   required
                   autoComplete="name"
-                  onChange={(e) => { setFullName(e.target.value) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setFullName(e.target.value)}
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${nameError ? "border-red-500" : ""
+                    }`}
                 />
+                {nameError && <p className="mt-2 text-sm text-red-500">{nameError}</p>}
               </div>
             </div>
 
@@ -80,9 +135,11 @@ export default function Signup() {
                   type="tel"
                   required
                   autoComplete="tel"
-                  onChange={(e) => { setPhoneNumber(e.target.value) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${phoneError ? "border-red-500" : ""
+                    }`}
                 />
+                {phoneError && <p className="mt-2 text-sm text-red-500">{phoneError}</p>}
               </div>
             </div>
 
@@ -97,9 +154,11 @@ export default function Signup() {
                   type="email"
                   required
                   autoComplete="email"
-                  onChange={(e) => { setEmail(e.target.value) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${emailError ? "border-red-500" : ""
+                    }`}
                 />
+                {emailError && <p className="mt-2 text-sm text-red-500">{emailError}</p>}
               </div>
             </div>
 
@@ -114,9 +173,17 @@ export default function Signup() {
                   type="password"
                   required
                   autoComplete="current-password"
-                  onChange={(e) => { setPassword(e.target.value) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${passwordError ? "border-red-500" : ""
+                    }`}
                 />
+                {passwordError && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {passwordError}
+                    <br />
+                    Password must be at least 8 characters long.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -131,9 +198,11 @@ export default function Signup() {
                   type="password"
                   required
                   autoComplete="new-password"
-                  onChange={(e) => { setConfirmPassword(e.target.value) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${confirmPasswordError ? "border-red-500" : ""
+                    }`}
                 />
+                {confirmPasswordError && <p className="mt-2 text-sm text-red-500">{confirmPasswordError}</p>}
               </div>
             </div>
 
@@ -148,7 +217,7 @@ export default function Signup() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Already a member?{' '}
+            Already a member?{" "}
             <a href="/signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Sign in here
             </a>

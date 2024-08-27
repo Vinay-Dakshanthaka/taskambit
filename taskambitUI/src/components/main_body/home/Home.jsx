@@ -4,7 +4,7 @@ import WorkWithUs from './WorkWithUs'
 import Header from './Navbar'
 import Introduction from './Introduction'
 import Information from './Information'
-import Signin from './Signin'
+import Signin from '../auth/Signin'
 
 const Home = () => {
   return (

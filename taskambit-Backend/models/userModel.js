@@ -1,5 +1,4 @@
-/* This code snippet is defining a Sequelize model for a "User" entity in a database using
-JavaScript.*/
+// models/user.js
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User", {
         user_id: {
@@ -38,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true
+        },
+        bio:{
+            type:DataTypes.TEXT,
+            allowNull:true,
         }
     }, {
         timestamps: true
